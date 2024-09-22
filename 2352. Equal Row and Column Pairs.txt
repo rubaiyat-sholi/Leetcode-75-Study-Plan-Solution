@@ -1,0 +1,14 @@
+class Solution:
+    def equalPairs(self, grid: list[list[int]]) -> int:
+        n = len(grid)
+        row_tuples = [tuple(row) for row in grid] 
+        col_tuples = [tuple(grid[i][j] for i in range(n)) for j in range(n)]  
+        
+        count = 0
+        row_count = Counter(row_tuples) 
+        
+        for col in col_tuples:
+            if col in row_count:
+                count += row_count[col] 
+        
+        return count
