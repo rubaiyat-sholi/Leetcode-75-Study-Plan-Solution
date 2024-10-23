@@ -1,0 +1,20 @@
+from collections import defaultdict
+
+class Solution:
+    def minReorder(self, n, connections):
+        graph = defaultdict(list)
+        reorder_count = 0
+    
+        for u, v in connections:
+            graph[u].append((v, 1))  
+            graph[v].append((u, 0))  
+
+        def dfs(node, parent):
+            nonlocal reorder_count
+            for neighbor, to_reorder in graph[node]:
+                if neighbor != parent:  
+                    reorder_count += to_reorder  
+                    dfs(neighbor, node)  
+        dfs(0, -1)
+      
+        return reorder_count
