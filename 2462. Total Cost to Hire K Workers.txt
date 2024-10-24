@@ -1,0 +1,34 @@
+import heapq
+
+class Solution:
+    def totalCost(self, costs, k, candidates):
+        left, right = [], []
+        n = len(costs)
+        left_idx, right_idx = 0, n - 1
+    
+        for i in range(candidates):
+            if left_idx <= right_idx:
+                heapq.heappush(left, (costs[left_idx], left_idx))
+                left_idx += 1
+            if left_idx <= right_idx:
+                heapq.heappush(right, (costs[right_idx], right_idx))
+                right_idx -= 1
+        total_cost = 0
+        
+        for _ in range(k):
+            if not right or (left and left[0][0] <= right[0][0]):
+                cost, idx = heapq.heappop(left)
+                total_cost += cost
+                
+                if left_idx <= right_idx:
+                    heapq.heappush(left, (costs[left_idx], left_idx))
+                    left_idx += 1
+            else:
+                cost, idx = heapq.heappop(right)
+                total_cost += cost
+                
+                if left_idx <= right_idx:
+                    heapq.heappush(right, (costs[right_idx], right_idx))
+                    right_idx -= 1
+                    
+        return total_cost
