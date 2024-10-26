@@ -1,0 +1,19 @@
+import heapq
+
+class Solution:
+    def maxScore(self, nums1, nums2, k):
+        pairs = sorted(zip(nums1, nums2), key=lambda x: -x[1])
+        heap = []
+        sum_nums1 = 0
+        max_score = 0
+        
+        for num1, num2 in pairs:
+            heapq.heappush(heap, num1)
+            sum_nums1 += num1
+
+            if len(heap) > k:
+                sum_nums1 -= heapq.heappop(heap)
+            if len(heap) == k:
+                max_score = max(max_score, sum_nums1 * num2)
+        
+        return max_score
